@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>百度一下，新主页！</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    #header {
+      background-color: #fff;
+      padding: 20px;
+      border-bottom: 1px solid #ddd;
+      height: 150px;
+    }
+
+    #logo {
+      margin-right: 20px;
+      display: inline-block;
+      vertical-align: middle;
+      position: relative;
+    }
+
+    #logo img {
+      height: 60px;
+    }
+
+    #logo span {
+      font-size: 14px;
+      color: #999;
+      margin-left: 5px;
+    }
+
+    #search-form {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    #search-form input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+      outline: none;
+      background-color: transparent;
+    }
+
+    #search-form input[type="submit"] {
+      background-color: #3385ff;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #search-form input[type="submit"]:hover {
+      background-color: #1a5cc2;
+    }
+
+    #footer {
+      background-color: #fff;
+      padding: 20px;
+      border-top: 1px solid #ddd;
+      text-align: center;
+      font-size: 14px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+    }
+
+    #footer a {
+      color: #666;
+      text-decoration: none;
+    }
+
+    #footer a:hover {
+      color: #3385ff;
+    }
+
+    /* 弹窗样式 */
+    #popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      width: 300px;
+      height: 150px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      padding: 20px;
+      display: none;
+    }
+
+    #popup p {
+      font-size: 18px;
+      margin: 0;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #popup button {
+      background-color: #3385ff;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #popup button:hover {
+      background-color: #1a5cc2;
+    }
+
+    /* 深色模式样式 */
+    body.dark-mode {
+      background-color: #333;
+      color: #fff;
+    }
+
+    body.dark-mode #header,
+    body.dark-mode #footer {
+      background-color: #222;
+      color: #fff;
+    }
+
+    body.dark-mode #search-form {
+      background-color: #222;
+    }
+
+    body.dark-mode #search-form input[type="text"] {
+      color: #fff;
+    }
+
+    body.dark-mode #popup {
+      background-color: #222;
+      color: #fff;
+    }
+
+    /* 深色模式下的按钮样式 */
+    #dark-mode-button.dark-mode {
+      background-color: #fff;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <header id="header">
+    <div id="logo">
+      <a href="https://www.baidu.com/">
+        <img src="https://www.baidu.com/img/flexible/logo/pc/result.png" alt="百度logo" onmouseover="showPopup()">
+        <span>全球领先的中文搜索引擎、致力于让网民更便捷地获取信息，找到所求</span>
+      </a>
+    </div>
+
+    <!-- 新添加的按钮 -->
+    <button id="dark-mode-button" onclick="toggleDarkMode()">点击切换深色模式，简洁不刺眼</button>
+  </header>
+
+  <form id="search-form" action="https://www.baidu.com/s" method="get">
+    <input type="text" name="wd" placeholder="在这里输入你要搜索的内容" autocomplete="off">
+
+    <input type="submit" value="搜索">
+  </form>
+
+  <footer id="footer">
+    <p>© 2021 百度</p>
+    <p><a href="#">关于百度</a> | <a href="#">百度推广</a> | <a href="#">百度联盟</a> | <a href="#">百度翻译</a> | <a href="#">百度云加速</a> | <a href="#">此栏正在开发</a></p>
+  </footer>
+
+  <!-- 弹窗内容 -->
+  <div id="popup">
+    <p>关于此网页<br></p>
+    <span style="font-size: 20px;">版本V1.1</span>
+    <span style="font-size: 15px;">我们全新开发了深色模式</span>
+    <span style="font-size: 10px;">此版本基于Baidu 2021官方代码修改，极简体验</span>
+    <button onclick="hidePopup()">我知道了</button>
+  </div>
+
+  <!-- 弹窗脚本 -->
+  <script>
+    function showPopup() {
+      document.getElementById("popup").style.display = "block";
+    }
+
+    function hidePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    function toggleDarkMode() {
+      const body = document.body;
+      const darkModeButton = document.getElementById("dark-mode-button");
+      const searchForm = document.getElementById("search-form");
+      const popup = document.getElementById("popup");
+      
+      body.classList.toggle("dark-mode");
+      darkModeButton.classList.toggle("dark-mode");
+      searchForm.classList.toggle("dark-mode");
+      popup.classList.toggle("dark-mode");
+
+      if (body.classList.contains("dark-mode")) {
+        darkModeButton.innerText = "浅色模式，适合白天预览";
+      } else {
+        darkModeButton.innerText = "深色模式，适合夜晚预览";
+      }
+    }
+  </script>
+
+</body>
+
+</html>
